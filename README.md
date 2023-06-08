@@ -108,3 +108,7 @@ series = {MobiCom '20}
 ===================
 I got longdress from here: https://mpeg-pcc.org/Downloads/8i/single%20frame/longdress_viewdep_vox12.zip
 More datasets: http://plenodb.jpeg.org/pc/microsoft/
+
+How to encode:
+make
+./server longdress Dataset/ricardo/ ./morton_code_1024.bin ./../compressed_files/ 0
