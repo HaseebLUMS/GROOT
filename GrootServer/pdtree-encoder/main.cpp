@@ -16,6 +16,7 @@ int* image_coder_order_;
 
 void compressColors(vector<uint8_t> orig_colors, vector<uint8_t>& compressed_colors, JpegEncoder* jpegEncoder_)
 {
+    printf("Starting color compression!\n");
     int color_size = orig_colors.size();
     int image_width = 1024;
     int image_height = 1024;
@@ -29,6 +30,7 @@ void compressColors(vector<uint8_t> orig_colors, vector<uint8_t>& compressed_col
         image_width = 2048;
     }
 
+    printf("In color compression!\n");
     vector<uint8_t> reordered_color(image_width * image_height *3, 255);
     for(int i = 0 ; i < image_width * image_height; i++)
     {
