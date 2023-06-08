@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <cstdio>
-#include "turbojpeg.h"
+#include "include/turbojpeg.h"
 #include <vector>
 #include <cstring>
 using namespace std;

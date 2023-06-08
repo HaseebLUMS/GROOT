@@ -52,7 +52,7 @@ int JpegEncoder::encode(vector<uint8_t> rgb_list, vector<uint8_t> &jpeg, int wid
 void JpegEncoder::testDecoder(vector<uint8_t> compressed_bytes, vector<uint8_t>& decoded_bytes)
 {
     tjhandle handle = tjInitDecompress();
-    if(handle < 0) printf("Can't initialize decoder\n");
+    if(handle == NULL) printf("Can't initialize decoder\n");
     int width = 0;
     int height = 0;
     int jpegSubsamp = 0;

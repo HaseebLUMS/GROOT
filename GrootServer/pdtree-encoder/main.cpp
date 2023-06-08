@@ -5,6 +5,7 @@
 #include <sstream>
 #include <chrono>
 #include <math.h>
+#include <boost/filesystem.hpp>
 
 #include "Frame.hpp"
 #include "JpegEncoder.hpp"
