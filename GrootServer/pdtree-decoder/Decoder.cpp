@@ -92,6 +92,7 @@ void Decoder::decodePDTreeFile(std::string filename)
 
     render_frame_.frame_type = header.frame_type;
     render_frame_.num_points = header.num_points;
+    printf("total points: %x\n", render_frame_.num_points);
 
 }
 

@@ -1,0 +1,3 @@
+/home/ubuntu/GROOT/GrootServer/pdtree-decoder/CMakeFiles/server.dir
+/home/ubuntu/GROOT/GrootServer/pdtree-decoder/CMakeFiles/edit_cache.dir
+/home/ubuntu/GROOT/GrootServer/pdtree-decoder/CMakeFiles/rebuild_cache.dir
