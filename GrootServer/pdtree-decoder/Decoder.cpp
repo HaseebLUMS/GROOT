@@ -305,10 +305,11 @@ void Decoder::generatePointCloud(std::string filename, Manifest manifest)
     {
         printf("[COLOR] %d\n", render_frame_.color_bytes[i]);
     }
-    delete(render_frame_.center_list);
-    delete(render_frame_.depth_bytes);
-    delete(render_frame_.color_bytes);
+    // delete(render_frame_.center_list);
+    // delete(render_frame_.depth_bytes);
+    // delete(render_frame_.color_bytes);
 }
 
 void Decoder::write_decode(std::string outfile)
-{}
+{
+}

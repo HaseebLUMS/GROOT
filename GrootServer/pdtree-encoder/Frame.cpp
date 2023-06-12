@@ -429,6 +429,7 @@ void Frame::compressBreadthBytes()
             point_indices_.push_back(childIndices[0]);
             if(isFirst)
             {
+                printf("a point index: %x\n", childIndices[0]);
                 printf("from bounding box: %f %f %f\n", calc_point.x(), calc_point.y(), calc_point.z());
                 printf("original : %f %f %f\n", cloud_->points[childIndices[0]].x, cloud_->points[childIndices[0]].y, cloud_->points[childIndices[0]].z);
                 calc_point = calc_point - Eigen::Vector3f(cloud_->points[childIndices[0]].x, cloud_->points[childIndices[0]].y, cloud_->points[childIndices[0]].z);
@@ -436,6 +437,10 @@ void Frame::compressBreadthBytes()
             }
         }
         dfIt++;
+    }
+
+    for (int i = 0; i < depth_list_.size(); i++) {
+        printf("--> %x\n", depth_list_[i]);
     }
 
     generateLeafNodeIndices();
@@ -492,8 +497,9 @@ void Frame::generatePayload(vector<uint8_t> compressed_colors)
     {
         int start = leaf_indices_.at(max_breadth_depth_).at(i-1);
         int end = leaf_indices_.at(max_breadth_depth_).at(i);
+        printf("breadth leaf indices: start %x, end %x \n", start, end);
 
-        payload_.breadth_leaf_indices.push_back(uint8_t(end-start)); 
+        payload_.breadth_leaf_indices.push_back(uint8_t(end-start)); // this is always 1 ???
         cntBreadthLeafNum += end-start;
     }
 
