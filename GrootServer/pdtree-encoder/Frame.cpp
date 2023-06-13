@@ -794,6 +794,8 @@ void Frame::generateLeafNodeIndices()
 
     }
     leaf_indices_.at(octree_depth_-1).push_back(cntChild);
+
+    // Pick up from here
     int leafNodeNum = cntChild; 
     for(int i = octree_depth_-2 ; i >=0 ; i--)
     { 

@@ -113,6 +113,8 @@ void Decoder::decodeBreadthBytes(RxFrameHeader header, uint8_t* breadth_bytes, u
     int cntCenters = 1;
     float currentSideLength = header.root_sidelength;
     int cntDepth = 0;
+
+    int total_centers = 1;
     while(cntBytes < header.num_breadth_bytes - 1)
     {
         int cntNextCenters = 0;
@@ -133,21 +135,24 @@ void Decoder::decodeBreadthBytes(RxFrameHeader header, uint8_t* breadth_bytes, u
         }
         cntBytes += cntCenters;
         cntCenters = cntNextCenters;
+        total_centers += cntNextCenters;
         memcpy(centers, next_centers, cntNextCenters * sizeof(Eigen::Vector4f));
         currentSideLength = currentSideLength / 2;
         cntDepth ++;
     }
 
-
+    printf("Total centers: %d\n", total_centers);
 
     int cntNodes = 0;
 
+    int total_in_center_list = 0;
     for(int i = 0 ; i < header.num_breadth_nodes ; i++)
     {
         uint8_t currentNumNode = *(breadth_leaf_num + i);
         Eigen::Vector4f currentCenter = *(centers + i);
         for(int j = 0 ; j < currentNumNode ; j++)
         {
+            total_in_center_list++;
             render_frame_.center_list[cntNodes + j] = currentCenter;
 
         }
@@ -155,6 +160,7 @@ void Decoder::decodeBreadthBytes(RxFrameHeader header, uint8_t* breadth_bytes, u
     }
 
 
+    printf("Total in centers list: %d\n", total_in_center_list);
     printf("COUNT NODES: %d numPoints %d\n", cntNodes, header.num_points);
 
 
