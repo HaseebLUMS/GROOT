@@ -99,6 +99,9 @@ void Decoder::decodePDTreeFile(std::string filename)
 
 void Decoder::decodeBreadthBytes(RxFrameHeader header, uint8_t* breadth_bytes, uint8_t* breadth_leaf_num)
 {
+    for (int i = 0; i < 10; i++) {
+        printf("breadth_leaf_num %d ==> %d\n", i, breadth_leaf_num[i]);
+    }
     Eigen::Vector4f* centers;
     centers = (Eigen::Vector4f*) malloc(header.num_breadth_nodes*sizeof(Eigen::Vector4f));
     Eigen::Vector4f* next_centers;
@@ -318,4 +321,15 @@ void Decoder::generatePointCloud(std::string filename, Manifest manifest)
 
 void Decoder::write_decode(std::string outfile)
 {
+    std::ofstream outputFile(outfile);
+    if (outputFile.is_open()) {
+        for(int i = 0 ; i < 214656 ; i++) {
+            outputFile << render_frame_.center_list[i].x() << " " << render_frame_.center_list[i].y() << " " << render_frame_.center_list[i].z() << " " << render_frame_.color_bytes[] << "\n";
+        }
+        outputFile.close();  // Close the file
+        std::cout << "Data written to file." << std::endl;
+    } else {
+        std::cout << "Unable to open the file." << std::endl;
+    }
+
 }

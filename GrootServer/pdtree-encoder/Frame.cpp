@@ -181,8 +181,10 @@ void Frame::compressPDTree(int is_user_adaptive, bool isShort)
     }
     else{
         compressBreadthBytes();
+         printf("now color\n");
         reorderDepthColor();
     }
+    printf("now depth\n");
     compressDepthBytes(is_user_adaptive);
 }
 
@@ -363,6 +365,7 @@ void Frame::compressBreadthBytes()
             sidelength = sidelength / 2;
         }
         if(currentDepth < octree_depth_)
+        if(currentDepth <= max_breadth_depth_)
         {
             breadth_bytes_.at(currentDepth).push_back(dfIt.getNodeConfiguration());
         }
@@ -440,9 +443,10 @@ void Frame::compressBreadthBytes()
     }
 
     for (int i = 0; i < depth_list_.size(); i++) {
-        printf("--> %x\n", depth_list_[i]);
+        // printf("--> %x\n", depth_list_[i]);
     }
 
+    printf("now generateLeafNodeIndices\n");
     generateLeafNodeIndices();
 
 }
@@ -497,8 +501,11 @@ void Frame::generatePayload(vector<uint8_t> compressed_colors)
     {
         int start = leaf_indices_.at(max_breadth_depth_).at(i-1);
         int end = leaf_indices_.at(max_breadth_depth_).at(i);
-        printf("breadth leaf indices: start %x, end %x \n", start, end);
+        // printf("breadth leaf indices: start %x, end %x \n", start, end);
 
+        if (end-start != 1) {
+            printf("\n\nHmmm %d\n\n\n", end-start);
+        }
         payload_.breadth_leaf_indices.push_back(uint8_t(end-start)); // this is always 1 ???
         cntBreadthLeafNum += end-start;
     }
@@ -516,7 +523,8 @@ void Frame::generateHeader(char type)
     printf("Frame type: %c\n" , header_.frame_type);
     header_.num_breadth_bytes = payload_.breadth_bytes.size();
     printf("Number of breadth bytes till maxbreadthdepth: %d\n", header_.num_breadth_bytes);
-    header_.num_breadth_nodes = payload_.breadth_leaf_indices.size();                                           
+    header_.num_breadth_nodes = payload_.breadth_leaf_indices.size();   
+    printf("Number of bread nodes: %d\n", header_.num_breadth_nodes);                                        
     header_.num_depth_bytes = payload_.depth_bytes.size();
     printf("Number of depth bytes : %d\n", header_.num_depth_bytes);
     header_.num_color_bytes = payload_.color_bytes.size();
@@ -742,6 +750,7 @@ void Frame::writeFrame(std::string filename, unsigned int* avgSize)
 
     int totalSize = sizeof(FrameHeader) + payload_.breadth_bytes.size() +  payload_.depth_bytes.size() + payload_.breadth_leaf_indices.size() + payload_.color_bytes.size();
 
+    printf("total size: %d, breadth bytes: %d, depth bytes: %d, color bytes: %d\n", totalSize, payload_.breadth_bytes.size(), payload_.depth_bytes.size(), payload_.color_bytes.size());
     *avgSize += totalSize;
     FILE* pFile;
     pFile = fopen(filename.c_str(), "wb");
